@@ -27,12 +27,59 @@
   }
   
   body {
-    background-color: #d8a7d8;
+    background-color: #a9eaff;
     color: black;
-  
     font-family: "Rubik", serif;
-    font-size: 16px;
+    font-size: 23px;
     font-weight: 600;
     margin: 0;
     padding: 0;
+  }
+
+  main{
+    flex-direction: column;
+    width: 80%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 10px 10px;
+  }
+
+  .quote-container {
+    background-color: rgb(227, 227, 227);
+    padding: 4% 0%;
+    border-radius: 5px;
+
+  }
+
+  .quote-container p {
+    margin: 0;
+    text-align: center;
+  }
+
+  .source {
+    justify-content: end;
+    margin: 5% 0%;
+    gap: 3%;
+  }
+
+  button {
+    width: 121px;;
+    font-size: 16px;
+    background-color: #e4a032;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 5px;
+
+  }
+  
+  button:hover {
+    background-color: #af7b27;
+  }
+
+  img {
+    height: 90px;
+    border-radius: 10px;
+    margin-right: 5%;
   }
