@@ -63,7 +63,6 @@
   }
 
   button {
-    width: 121px;;
     font-size: 16px;
     background-color: #e4a032;
     color: white;
@@ -71,7 +70,19 @@
     border-radius: 5px;
     cursor: pointer;
     padding: 10px 5px;
+  }
+  
+  .button-container {
+    flex-direction: row;
+    gap: 5px;
+  }
 
+  .new-quote {
+    width: 121px;
+  }
+
+  .pause, .play, .replay {
+    width: 60px;
   }
   
   button:hover {

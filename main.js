@@ -8,8 +8,11 @@ const newQuoteButton = get(".new-quote");
 const quote = get(".quote");
 const speaker = get(".name");
 const face = get(".picture");
+const pauseButton = get(".pause");
+const playButton = get(".play");
+const replayButton = get(".replay");
 
-const aboutQuote = [
+let quoteList = [
   {
     quote: "It does not matter how slowly you go as long as you do not stop.",
     name: "Confucius",
@@ -79,32 +82,60 @@ const aboutQuote = [
   }
 ];
 
-let lastQuoteIndex = -1;
+let usedQuotes = [];
+
+const newBackground = function () {
+  document.body.style.backgroundImage = `url('${faker.image.urlPicsumPhotos({
+    grayscale: true
+  })}')`;
+
+  document.body.style.backgroundSize = "cover";
+  document.body.style.backgroundPosition = "center";
+};
+
+const getIndex = function () {
+  let randomIndex = Math.floor(Math.random() * quoteList.length);
+  return randomIndex;
+};
+
+const fillQuoteDivs = function (randomIndex) {
+  quote.innerText = quoteList[randomIndex].quote;
+  speaker.innerText = `-${quoteList[randomIndex].name}`;
+  face.src = quoteList[randomIndex].picture;
+};
+
+const speakQuote = function (randomIndex) {
+  const msg = new SpeechSynthesisUtterance(quote.innerText);
+  msg.voice = speechSynthesis.getVoices()[quoteList[randomIndex].voiceIndex];
+  speechSynthesis.speak(msg);
+};
 
 newQuoteButton.addEventListener("click", function () {
   speechSynthesis.cancel();
 
-  let random = Math.floor(Math.random() * aboutQuote.length);
-
-  if (lastQuoteIndex === random) {
-    random = (random + 1) % aboutQuote.length;
+  if (quoteList.length === 0) {
+    quoteList = usedQuotes;
+    usedQuotes = [];
   }
 
-  lastQuoteIndex = random;
+  let randomIndex = getIndex();
+  fillQuoteDivs(randomIndex);
+  newBackground();
+  speakQuote(randomIndex);
 
-  quote.innerText = aboutQuote[random].quote;
-  speaker.innerText = `-${aboutQuote[random].name}`;
-  face.src = aboutQuote[random].picture;
-  document.body.style.backgroundImage = `url('${faker.image.urlPicsumPhotos({
-    grayscale: true,
-    width: 1920,
-    height: 1080
-  })}')`;
-  document.body.style.backgroundSize = "cover";
-  document.body.style.backgroundPosition = "center";
-
-  const msg = new SpeechSynthesisUtterance(quote.innerText);
-  msg.voice = speechSynthesis.getVoices()[aboutQuote[random].voiceIndex];
-  speechSynthesis.speak(msg);
+  usedQuotes.push(quoteList[randomIndex]);
+  quoteList.splice(randomIndex, 1);
 });
 
+pauseButton.addEventListener("click", function () {
+  speechSynthesis.pause();
+});
+
+playButton.addEventListener("click", function () {
+  speechSynthesis.resume();
+});
+
+
+replayButton.addEventListener("click", function () {
+  speakQuote();
+});
