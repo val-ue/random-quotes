@@ -1,3 +1,4 @@
+console.clear();
 import { faker } from "https://esm.sh/@faker-js/faker";
 
 const get = function (selector) {
@@ -10,7 +11,6 @@ const speaker = get(".name");
 const face = get(".picture");
 const pauseButton = get(".pause");
 const playButton = get(".play");
-const replayButton = get(".replay");
 
 let quoteList = [
   {
@@ -132,10 +132,12 @@ pauseButton.addEventListener("click", function () {
 });
 
 playButton.addEventListener("click", function () {
-  speechSynthesis.resume();
-});
+  if (speechSynthesis.paused) {
+    speechSynthesis.resume();
+  } else {
+    speaker.innerText = `hi`;
+    const msg = new SpeechSynthesisUtterance(quote.innerText);
 
-
-replayButton.addEventListener("click", function () {
-  speakQuote();
+    speechSynthesis.speak(msg);
+  }
 });
