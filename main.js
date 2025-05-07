@@ -1,4 +1,3 @@
-console.clear();
 import { faker } from "https://esm.sh/@faker-js/faker";
 
 const get = function (selector) {
@@ -100,7 +99,7 @@ const getIndex = function () {
 
 const fillQuoteDivs = function (randomIndex) {
   quote.innerText = quoteList[randomIndex].quote;
-  speaker.innerText = `-${quoteList[randomIndex].name}`;
+  speaker.innerText = `${quoteList[randomIndex].name}`;
   face.src = quoteList[randomIndex].picture;
 };
 
@@ -122,7 +121,6 @@ newQuoteButton.addEventListener("click", function () {
   fillQuoteDivs(randomIndex);
   newBackground();
   speakQuote(randomIndex);
-
   usedQuotes.push(quoteList[randomIndex]);
   quoteList.splice(randomIndex, 1);
 });
@@ -135,9 +133,10 @@ playButton.addEventListener("click", function () {
   if (speechSynthesis.paused) {
     speechSynthesis.resume();
   } else {
-    speaker.innerText = `hi`;
     const msg = new SpeechSynthesisUtterance(quote.innerText);
-
+    const lastQuote = usedQuotes[usedQuotes.length - 1];
+    const voices = speechSynthesis.getVoices();
+    msg.voice = voices[lastQuote.voiceIndex];
     speechSynthesis.speak(msg);
   }
 });
